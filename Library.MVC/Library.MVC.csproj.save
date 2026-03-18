@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <UserSecretsId>aspnet-WebApplication1-d178f45e-9928-4e31-b407-76e0319d786f</UserSecretsId>
+        <RootNamespace>WebApplication1</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <None Update="app.db" CopyToOutputDirectory="PreserveNewest" ExcludeFromSingleFile="true"/>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Library.Tests\Library.Tests.csproj" />
+    </ItemGroup>
+
+</Project>
+
+

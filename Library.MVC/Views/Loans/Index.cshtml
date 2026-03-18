@@ -1,0 +1,61 @@
+@model IEnumerable<Library.Domain.Models.Loan>
+
+@{
+    ViewData["Title"] = "Loans";
+}
+
+<h1>Loans</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Create New Loan</a>
+</p>
+
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>Book</th>
+        <th>Member</th>
+        <th>Loan Date</th>
+        <th>Due Date</th>
+        <th>Returned Date</th>
+        <th>Status</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Book?.Title</td>
+            <td>@item.Member?.FullName</td>
+            <td>@item.LoanDate.ToShortDateString()</td>
+            <td>@item.DueDate.ToShortDateString()</td>
+            <td>@(item.ReturnedDate?.ToShortDateString() ?? "Not Returned")</td>
+            <td>
+                @if (item.ReturnedDate.HasValue)
+                {
+                    <span class="badge bg-success">Returned</span>
+                }
+                else if (item.IsOverdue)
+                {
+                    <span class="badge bg-danger">Overdue</span>
+                }
+                else
+                {
+                    <span class="badge bg-primary">Active</span>
+                }
+            </td>
+            <td>
+                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info">Details</a>
+                @if (!item.ReturnedDate.HasValue)
+                {
+                    <form asp-action="MarkReturned" asp-route-id="@item.Id" method="post" style="display: inline;">
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="btn btn-sm btn-success">Mark Returned</button>
+                    </form>
+                }
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

@@ -1,0 +1,60 @@
+@model Library.Domain.Models.Loan
+
+@{
+    ViewData["Title"] = "Edit Loan";
+}
+
+<h1>Edit Loan</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            
+            <div class="form-group mb-3">
+                <label asp-for="BookId" class="control-label">Book</label>
+                <select asp-for="BookId" class="form-control" asp-items="ViewBag.BookId" disabled="@(Model.ReturnedDate.HasValue)">
+                    <option value="">-- Select Book --</option>
+                </select>
+                <span asp-validation-for="BookId" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group mb-3">
+                <label asp-for="MemberId" class="control-label">Member</label>
+                <select asp-for="MemberId" class="form-control" asp-items="ViewBag.MemberId" disabled="@(Model.ReturnedDate.HasValue)">
+                    <option value="">-- Select Member --</option>
+                </select>
+                <span asp-validation-for="MemberId" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group mb-3">
+                <label asp-for="LoanDate" class="control-label"></label>
+                <input asp-for="LoanDate" class="form-control" type="date" />
+                <span asp-validation-for="LoanDate" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group mb-3">
+                <label asp-for="DueDate" class="control-label"></label>
+                <input asp-for="DueDate" class="form-control" type="date" />
+                <span asp-validation-for="DueDate" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group mb-3">
+                <label asp-for="ReturnedDate" class="control-label"></label>
+                <input asp-for="ReturnedDate" class="form-control" type="date" />
+                <span asp-validation-for="ReturnedDate" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group mb-3">
+                <input type="submit" value="Save" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

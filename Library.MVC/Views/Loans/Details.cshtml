@@ -1,0 +1,75 @@
+@model Library.Domain.Models.Loan
+
+@{
+    ViewData["Title"] = "Loan Details";
+}
+
+<h1>Loan Details</h1>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            Book
+        </dt>
+        <dd class="col-sm-10">
+            @Model.Book?.Title by @Model.Book?.Author
+        </dd>
+        
+        <dt class="col-sm-2">
+            Member
+        </dt>
+        <dd class="col-sm-10">
+            @Model.Member?.FullName
+        </dd>
+        
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.LoanDate)
+        </dt>
+        <dd class="col-sm-10">
+            @Model.LoanDate.ToShortDateString()
+        </dd>
+        
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.DueDate)
+        </dt>
+        <dd class="col-sm-10">
+            @Model.DueDate.ToShortDateString()
+        </dd>
+        
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ReturnedDate)
+        </dt>
+        <dd class="col-sm-10">
+            @(Model.ReturnedDate?.ToShortDateString() ?? "Not Returned")
+        </dd>
+        
+        <dt class="col-sm-2">
+            Status
+        </dt>
+        <dd class="col-sm-10">
+            @if (Model.ReturnedDate.HasValue)
+            {
+                <span class="badge bg-success">Returned</span>
+            }
+            else if (Model.IsOverdue)
+            {
+                <span class="badge bg-danger">Overdue</span>
+            }
+            else
+            {
+                <span class="badge bg-primary">Active</span>
+            }
+        </dd>
+    </dl>
+</div>
+<div>
+    @if (!Model.ReturnedDate.HasValue)
+    {
+        <form asp-action="MarkReturned" asp-route-id="@Model.Id" method="post" style="display: inline;">
+            @Html.AntiForgeryToken()
+            <button type="submit" class="btn btn-success">Mark Returned</button>
+        </form>
+    }
+    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+</div>
